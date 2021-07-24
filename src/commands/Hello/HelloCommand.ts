@@ -1,4 +1,4 @@
-import ICommand, { Command } from "./ICommand";
+import ICommand, { Command } from "../ICommand";
 
 export default class HelloCommand implements ICommand {
   public readonly name: string = "hello";

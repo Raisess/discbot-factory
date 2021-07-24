@@ -1,7 +1,7 @@
 import Core from "./Core";
 import Env from "./config/Env";
 
-import HelloCommand from "./commands/HelloCommand";
+import HelloCommand from "./commands/Hello/HelloCommand";
 
 const bot: Core = new Core(Env.NAME, Env.PREFIX, [new HelloCommand()]);
 
