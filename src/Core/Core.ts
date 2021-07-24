@@ -1,6 +1,6 @@
 import { Client, Message } from "discord.js";
 
-import ICommand, { Command } from "../commands/ICommand";
+import ICommand, { Command } from "./ICommand";
 
 enum ClientEvents {
   READY = "ready",
