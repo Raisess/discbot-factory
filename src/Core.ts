@@ -39,7 +39,7 @@ export default class Core {
       if (message.content.startsWith(this.prefix)) {
         const command: Command = this.extractCommandFromMessage(message);
         const commandImpl: ICommand | undefined = this.commands.find(
-          (c: ICommand): boolean => c.name === command.name,
+          (c: ICommand): boolean => c.name.toLowerCase() === command.name,
         );
 
         if (commandImpl) commandImpl.execute(command);
@@ -56,7 +56,7 @@ export default class Core {
     splittedMessage.shift(); // remove command name and its now only arguments
 
     return {
-      name: name.slice(1), // remove prefix from command name
+      name: name.slice(1).toLowerCase(), // remove prefix from command name
       args: splittedMessage,
       message,
     };
