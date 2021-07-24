@@ -1,6 +1,6 @@
 import { Client, Message } from "discord.js";
 
-import { Command } from "./commands/ICommand";
+import ICommand, { Command } from "./commands/ICommand";
 
 enum ClientEvents {
   READY = "ready",
@@ -13,6 +13,7 @@ export default class Core {
   constructor(
     private readonly clientName: string,
     private readonly prefix: string,
+    private readonly commands: Array<ICommand>,
   ) {
     this.pingOnReady();
 
@@ -37,8 +38,11 @@ export default class Core {
     this.client.on(ClientEvents.MESSAGE, (message: Message): void => {
       if (message.content.startsWith(this.prefix)) {
         const command: Command = this.extractCommandFromMessage(message);
+        const commandImpl: ICommand | undefined = this.commands.find(
+          (c: ICommand): boolean => c.name === command.name,
+        );
 
-        console.log(command);
+        if (commandImpl) commandImpl.execute(command);
       }
     });
   }
@@ -46,7 +50,7 @@ export default class Core {
   private extractCommandFromMessage(message: Message): Command {
     const splittedMessage: Array<string> = message.content
       .split(" ")
-      .filter((item) => item !== "");
+      .filter((item: string): boolean => item !== "");
     const name: string = splittedMessage[0];
 
     splittedMessage.shift(); // remove command name and its now only arguments

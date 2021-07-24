@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
 
 export default interface ICommand {
-  name: string;
-  description: string;
+  readonly name: string;
+  readonly description: string;
 
   execute(command: Command): void | Promise<void>;
 }
