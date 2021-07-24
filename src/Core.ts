@@ -44,15 +44,17 @@ export default class Core {
   }
 
   private extractCommandFromMessage(message: Message): Command {
-    const splittedMessage: Array<string> = message.content.split(" ");
+    const splittedMessage: Array<string> = message.content
+      .split(" ")
+      .filter((item) => item !== "");
     const name: string = splittedMessage[0];
 
     splittedMessage.shift(); // remove command name and its now only arguments
 
     return {
-      author: message.author,
       name: name.slice(1), // remove prefix from command name
       args: splittedMessage,
+      message,
     };
   }
 }
