@@ -1,17 +1,11 @@
-import { Client, Message, User } from "discord.js";
+import { Client, Message } from "discord.js";
 
-// import ICommand from "./commands/ICommand";
+import { Command } from "./commands/ICommand";
 
 enum ClientEvents {
   READY = "ready",
   MESSAGE = "message",
 }
-
-type Command = {
-  author: User;
-  name: string;
-  args: Array<string>;
-};
 
 export default class Core {
   private readonly client: Client = new Client();
