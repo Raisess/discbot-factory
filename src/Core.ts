@@ -20,6 +20,10 @@ export default class Core {
     this.enableCommandDetection();
   }
 
+  public authClient(token: string): void {
+    this.client.login(token);
+  }
+
   private pingOnReady(): void {
     this.client.once(
       ClientEvents.READY,
@@ -28,10 +32,6 @@ export default class Core {
         console.log("Logged in as", this.client.user?.tag)
       ),
     );
-  }
-
-  public authClient(token: string): void {
-    this.client.login(token);
   }
 
   private enableCommandDetection(): void {
