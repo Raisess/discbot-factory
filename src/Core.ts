@@ -11,8 +11,8 @@ export default class Core {
   private readonly client: Client = new Client();
 
   constructor(
-    protected clientName: string,
-    protected prefix: string, // private commands: Array<ICommand>,
+    private readonly clientName: string,
+    private readonly prefix: string,
   ) {
     this.pingOnReady();
 
