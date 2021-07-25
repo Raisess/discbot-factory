@@ -11,8 +11,9 @@ export default class YouTubePlayer implements IPlayer {
     audioPath: string,
     streamOptions?: StreamOptions,
   ): Promise<StreamDispatcher> {
-    const yt: any = await ytdl(audioPath);
-
-    return voiceConnection.play(yt, { type: "opus", ...streamOptions });
+    return voiceConnection.play(await ytdl(audioPath), {
+      type: "opus",
+      ...streamOptions,
+    });
   }
 }
