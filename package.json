@@ -2,9 +2,9 @@
   "name": "discbot-factory",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/main.js",
+  "main": "./src/main.ts",
   "scripts": {
-    "start": "node ./dist/main.js",
+    "start": "node ./dist/example.js",
     "start-dev": "ts-node ./src/main.ts",
     "compile": "tsc -p ./tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\"",
