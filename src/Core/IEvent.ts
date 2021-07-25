@@ -1,10 +1,10 @@
-// T and Y as discord client events callback parameters
+// T, X and Y are discord client events callback parameters
 // https://discord.js.org/#/docs/main/stable/class/Client
-export default interface IEvent<T, Y> {
+export default interface IEvent<T, X, Y> {
   readonly name: PublicEvent;
   readonly description: string;
 
-  execute(t: T, y?: Y): void | Promise<void>;
+  execute(t: T, x?: X, y?: Y): void | Promise<void>;
 }
 
 export enum PublicEvent {
