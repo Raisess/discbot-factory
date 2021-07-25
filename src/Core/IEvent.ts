@@ -1,13 +1,13 @@
 // T and Y as discord client events callback parameters
 // https://discord.js.org/#/docs/main/stable/class/Client
 export default interface IEvent<T, Y> {
-  readonly name: PublicEvents;
+  readonly name: PublicEvent;
   readonly description: string;
 
   execute(t: T, y?: Y): void | Promise<void>;
 }
 
-export enum PublicEvents {
+export enum PublicEvent {
   CHANNEL_CREATE = "channelCreate",
   CHANNEL_DELETE = "channelDelete",
   CHANNEL_UPDATE = "channelUpdate",
