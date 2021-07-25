@@ -106,7 +106,7 @@ import { IEvent, PublicEvents } from "discbot-factory";
 
 import { Message } from "discord.js";
 
-export default class MessageDeleteEvent implements IEvent<Message> {
+export default class MessageDeleteEvent implements IEvent<Message, {}> {
   public readonly name: PublicEvents = PublicEvents.MESSAGE_DELETE;
   public readonly description: string = "On message delete event";
 
