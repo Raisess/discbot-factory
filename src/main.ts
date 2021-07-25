@@ -1,14 +1,7 @@
 import Core from "./Core/Core";
-import Env from "./config/Env";
+import ICommand, { Command } from "./Core/ICommand";
 
-import HelloCommand from "./commands/Hello/HelloCommand";
-import QueueCommand from "./commands/Queue/QueueCommand";
-import MusicCommand from "./commands/Music/MusicCommand";
+import Queue from "./Core/modules/Queue/Queue";
+import Voice from "./Core/modules/Voice/Voice";
 
-const bot: Core = new Core(Env.NAME, Env.PREFIX, [
-  new HelloCommand(),
-  new QueueCommand(),
-  new MusicCommand(),
-]);
-
-bot.authClient(Env.TOKEN);
+export { Core, ICommand, Command, Queue, Voice };

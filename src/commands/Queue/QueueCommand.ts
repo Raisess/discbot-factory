@@ -1,5 +1,4 @@
-import ICommand, { Command } from "../../Core/ICommand";
-import Queue from "../../Core/modules/Queue/Queue";
+import { Queue, ICommand, Command } from "../../main";
 
 export default class QueueCommand implements ICommand {
   public readonly name: string = "queue";
