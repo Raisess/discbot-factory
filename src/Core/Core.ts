@@ -10,7 +10,7 @@ enum ClientEvents {
 
 type Injectables = {
   commands?: Array<ICommand>;
-  events?: Array<IEvent<unknown>>;
+  events?: Array<IEvent<unknown, unknown>>;
 };
 
 export default class Core {
@@ -76,9 +76,12 @@ export default class Core {
   private enablePublicEvents() {
     if (this.injectables.events?.length) {
       for (const event of this.injectables.events) {
-        this.client.on(event.name, async (t: unknown): Promise<void> => {
-          await event.execute(t);
-        });
+        this.client.on(
+          event.name,
+          async (t: unknown, y?: unknown): Promise<void> => {
+            await event.execute(t, y);
+          },
+        );
       }
     }
   }
