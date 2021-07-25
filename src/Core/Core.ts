@@ -3,7 +3,7 @@ import { Client, Message } from "discord.js";
 import ICommand, { Command } from "./ICommand";
 import IEvent from "./IEvent";
 
-enum ClientEvents {
+enum ClientEvent {
   READY = "ready",
   MESSAGE = "message",
 }
@@ -33,7 +33,7 @@ export default class Core {
 
   private pingOnReady(): void {
     this.client.once(
-      ClientEvents.READY,
+      ClientEvent.READY,
       (): void => (
         console.log(this.clientName, "is ready for work!"),
         console.log("Logged in as", this.client.user?.tag)
@@ -43,7 +43,7 @@ export default class Core {
 
   private enableCommandDetection(): void {
     this.client.on(
-      ClientEvents.MESSAGE,
+      ClientEvent.MESSAGE,
       async (message: Message): Promise<void> => {
         if (message.content.startsWith(this.prefix)) {
           const command: Command = this.extractCommandFromMessage(message);
