@@ -80,7 +80,7 @@ export default class Voice {
   }
 
   public setVolume(power: number): void {
-    if (this.state !== "playing") {
+    if (this.state === "playing") {
       this.dispatcher!.setVolume(power);
     } else {
       console.error("Only can change volume when bot is playing");
