@@ -35,16 +35,19 @@ export default class Core {
   }
 
   private enableCommandDetection(): void {
-    this.client.on(ClientEvents.MESSAGE, (message: Message): void => {
-      if (message.content.startsWith(this.prefix)) {
-        const command: Command = this.extractCommandFromMessage(message);
-        const commandImpl: ICommand | undefined = this.commands.find(
-          (c: ICommand): boolean => c.name.toLowerCase() === command.name,
-        );
+    this.client.on(
+      ClientEvents.MESSAGE,
+      async (message: Message): Promise<void> => {
+        if (message.content.startsWith(this.prefix)) {
+          const command: Command = this.extractCommandFromMessage(message);
+          const commandImpl: ICommand | undefined = this.commands.find(
+            (c: ICommand): boolean => c.name.toLowerCase() === command.name,
+          );
 
-        if (commandImpl) commandImpl.execute(command);
-      }
-    });
+          if (commandImpl) await commandImpl.execute(command);
+        }
+      },
+    );
   }
 
   private extractCommandFromMessage(message: Message): Command {
