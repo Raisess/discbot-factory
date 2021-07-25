@@ -12,15 +12,15 @@ export default class PlayerAdapter implements IPlayer {
 
   constructor(public readonly name: Player) {}
 
-  public play(
+  public async play(
     voiceConnection: VoiceConnection,
     audioPath: string,
-    streamOptions: StreamOptions,
-  ): StreamDispatcher {
+    streamOptions?: StreamOptions,
+  ): Promise<StreamDispatcher> {
     const player: IPlayer = this.players.find(
       (p: IPlayer): boolean => p.name === this.name,
     )!;
 
-    return player.play(voiceConnection, audioPath, streamOptions);
+    return await player.play(voiceConnection, audioPath, streamOptions);
   }
 }

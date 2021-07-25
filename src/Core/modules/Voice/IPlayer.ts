@@ -6,8 +6,8 @@ export default interface IPlayer {
   play(
     voiceConnection: VoiceConnection,
     audioPath: string,
-    streamOptions: StreamOptions,
-  ): StreamDispatcher;
+    streamOptions?: StreamOptions,
+  ): StreamDispatcher | Promise<StreamDispatcher>;
 }
 
 export type Player = "local" | "youtube";

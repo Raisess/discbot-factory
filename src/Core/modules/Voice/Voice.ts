@@ -24,7 +24,7 @@ export default class Voice {
 
   constructor(
     private readonly player: Player,
-    private readonly streamOptions: StreamOptions,
+    private readonly streamOptions?: StreamOptions,
   ) {}
 
   public async connect(channel: VoiceChannel): Promise<void> {
@@ -35,9 +35,9 @@ export default class Voice {
     }
   }
 
-  public play(audioPath: string): void {
+  public async play(audioPath: string): Promise<void> {
     if (this.state !== "playing") {
-      this.dispatcher = new PlayerAdapter(this.player).play(
+      this.dispatcher = await new PlayerAdapter(this.player).play(
         this.connection!,
         audioPath,
         this.streamOptions,
