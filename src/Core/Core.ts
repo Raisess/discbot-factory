@@ -1,11 +1,17 @@
 import { Client, Message } from "discord.js";
 
 import ICommand, { Command } from "./ICommand";
+import IEvent from "./IEvent";
 
 enum ClientEvents {
   READY = "ready",
   MESSAGE = "message",
 }
+
+type Injectables = {
+  commands?: Array<ICommand>;
+  events?: Array<IEvent<unknown>>;
+};
 
 export default class Core {
   private readonly client: Client = new Client();
@@ -13,11 +19,12 @@ export default class Core {
   constructor(
     private readonly clientName: string,
     private readonly prefix: string,
-    private readonly commands: Array<ICommand>,
+    private readonly injectables: Injectables,
   ) {
     this.pingOnReady();
 
     this.enableCommandDetection();
+    this.enablePublicEvents();
   }
 
   public authClient(token: string): void {
@@ -40,9 +47,10 @@ export default class Core {
       async (message: Message): Promise<void> => {
         if (message.content.startsWith(this.prefix)) {
           const command: Command = this.extractCommandFromMessage(message);
-          const commandImpl: ICommand | undefined = this.commands.find(
-            (c: ICommand): boolean => c.name.toLowerCase() === command.name,
-          );
+          const commandImpl: ICommand | undefined =
+            this.injectables.commands!.find(
+              (c: ICommand): boolean => c.name.toLowerCase() === command.name,
+            );
 
           if (commandImpl) await commandImpl.execute(command);
         }
@@ -63,5 +71,15 @@ export default class Core {
       args: splittedMessage,
       message,
     };
+  }
+
+  private enablePublicEvents() {
+    if (this.injectables.events?.length) {
+      for (const event of this.injectables.events) {
+        this.client.on(event.name, async (t: unknown): Promise<void> => {
+          await event.execute(t);
+        });
+      }
+    }
   }
 }
