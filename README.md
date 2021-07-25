@@ -50,3 +50,49 @@ const bot: Core = new Core("<bot-name>", "<prefix>", [
 
 bot.authClient("<token>");
 ```
+
+## Modules
+
+### Voice
+
+A pre-builded voice module for create voice channel interactions.
+
+```ts
+import { Voice } from "discbot-factory";
+
+const voice: Voice = new Voice("youtube"); // local or youtuber player.
+
+async function playMusic(voiceChannel: VoiceChannel): Promise<void> {
+  await voice.connect(voiceChannel);
+  // if you are using local player, just pass the sound path.
+  await voice.play("https://www.youtube.com/watch?v=mH_z5vAkf2c");
+
+  voice.onEnd((): void => {
+    console.log("Finished!");
+  });
+}
+```
+
+### Queue
+
+A queue module, nice to use with voice module and to create cool experiences like mini-games.
+
+```ts
+import { Queue } from "discbot-factory";
+
+const queue: Queue<string> = new Queue<string>();
+
+queue.putOnTop("hello");
+queue.putOnBottom("oh no, I'm the last");
+
+// get the first item
+console.log(queue.get()) // hello
+
+queue.removeHead();
+
+console.log(queue.get()) // oh no, I'm the last
+
+queue.clear();
+
+console.log(queue.getAll()); // []
+```
