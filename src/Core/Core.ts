@@ -6,6 +6,8 @@ import IEvent from "./IEvent";
 enum ClientEvent {
   READY = "ready",
   MESSAGE = "message",
+  WARN = "warn",
+  ERROR = "error",
 }
 
 type Injectables = {
@@ -22,7 +24,7 @@ export default class Core {
     private readonly injectables: Injectables,
   ) {
     this.pingOnReady();
-
+    this.captureWarningsAndErros();
     this.enableCommandDetection();
     this.enablePublicEvents();
   }
@@ -84,5 +86,10 @@ export default class Core {
         );
       }
     }
+  }
+
+  private captureWarningsAndErros(): void {
+    this.client.on(ClientEvent.ERROR, (err: Error): void => console.error(err));
+    this.client.on(ClientEvent.WARN, (wrn: string): void => console.warn(wrn));
   }
 }
