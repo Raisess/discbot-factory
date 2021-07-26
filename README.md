@@ -102,7 +102,7 @@ console.log(queue.getAll()); // []
 Equivalent to a `client.on("event", callback)` implementation.
 
 ```ts
-import { IEvent, PublicEvents } from "discbot-factory";
+import { IEvent, PublicEvent } from "discbot-factory";
 
 import { Message } from "discord.js";
 
