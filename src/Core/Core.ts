@@ -3,14 +3,16 @@ import { Client, Message } from "discord.js";
 import ICommand, { Command } from "./ICommand";
 import IEvent from "./IEvent";
 
-enum ClientEvents {
+enum ClientEvent {
   READY = "ready",
   MESSAGE = "message",
+  WARN = "warn",
+  ERROR = "error",
 }
 
 type Injectables = {
   commands?: Array<ICommand>;
-  events?: Array<IEvent<unknown>>;
+  events?: Array<IEvent<unknown, unknown, unknown>>;
 };
 
 export default class Core {
@@ -22,7 +24,7 @@ export default class Core {
     private readonly injectables: Injectables,
   ) {
     this.pingOnReady();
-
+    this.captureWarningsAndErros();
     this.enableCommandDetection();
     this.enablePublicEvents();
   }
@@ -33,7 +35,7 @@ export default class Core {
 
   private pingOnReady(): void {
     this.client.once(
-      ClientEvents.READY,
+      ClientEvent.READY,
       (): void => (
         console.log(this.clientName, "is ready for work!"),
         console.log("Logged in as", this.client.user?.tag)
@@ -43,7 +45,7 @@ export default class Core {
 
   private enableCommandDetection(): void {
     this.client.on(
-      ClientEvents.MESSAGE,
+      ClientEvent.MESSAGE,
       async (message: Message): Promise<void> => {
         if (message.content.startsWith(this.prefix)) {
           const command: Command = this.extractCommandFromMessage(message);
@@ -76,10 +78,18 @@ export default class Core {
   private enablePublicEvents() {
     if (this.injectables.events?.length) {
       for (const event of this.injectables.events) {
-        this.client.on(event.name, async (t: unknown): Promise<void> => {
-          await event.execute(t);
-        });
+        this.client.on(
+          event.name,
+          async (t: unknown, x?: unknown, y?: unknown): Promise<void> => {
+            await event.execute(t, x, y);
+          },
+        );
       }
     }
+  }
+
+  private captureWarningsAndErros(): void {
+    this.client.on(ClientEvent.ERROR, (err: Error): void => console.error(err));
+    this.client.on(ClientEvent.WARN, (wrn: string): void => console.warn(wrn));
   }
 }

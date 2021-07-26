@@ -1,6 +1,6 @@
 {
   "name": "discbot-factory",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Discord chat bot pre-builded core.",
   "main": "./dist/main.js",
   "types": "./dist/main.d.ts",

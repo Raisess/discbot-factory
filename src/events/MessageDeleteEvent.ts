@@ -1,9 +1,9 @@
-import { IEvent, PublicEvents } from "../main";
+import { IEvent, PublicEvent } from "../main";
 
 import { Message } from "discord.js";
 
-export default class MessageDeleteEvent implements IEvent<Message> {
-  public readonly name: PublicEvents = PublicEvents.MESSAGE_DELETE;
+export default class MessageDeleteEvent implements IEvent<Message, {}, {}> {
+  public readonly name: PublicEvent = PublicEvent.MESSAGE_DELETE;
   public readonly description: string = "On message delete event";
 
   public execute(message: Message): void {
