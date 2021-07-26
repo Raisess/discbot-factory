@@ -11,7 +11,7 @@ Pre builded modules like queue and voice. Simple implementations ways.
 
 import { Core } from "discbot-factory";
 
-const bot: Core = new Core("<bot-name>", "<prefix>", []);
+const bot: Core = new Core("<bot-name>", "<prefix>", {});
 
 bot.authClient("<token>");
 ```
@@ -44,9 +44,9 @@ import { Core } from "discbot-factory";
 
 import HelloWorldCommand from "./commands/HelloWorldCommand";
 
-const bot: Core = new Core("<bot-name>", "<prefix>", [
-  new HelloWorldCommand(),
-]);
+const bot: Core = new Core("<bot-name>", "<prefix>", {
+  commands: [new HelloWorldCommand()],
+});
 
 bot.authClient("<token>");
 ```
