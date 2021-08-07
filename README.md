@@ -46,6 +46,8 @@ import HelloWorldCommand from "./commands/HelloWorldCommand";
 
 const bot: Core = new Core("<bot-name>", "<prefix>", {
   commands: [new HelloWorldCommand()],
+  middlewares: [],
+  events: [],
 });
 
 bot.authClient("<token>");
@@ -112,6 +114,28 @@ export default class MessageDeleteEvent implements IEvent<Message, {}, {}> {
 
   public execute(message: Message): void {
     console.log(message.content);
+  }
+}
+```
+
+## Using Middlewares
+
+```ts
+import IMiddleware from "../Core/IMiddleware";
+import { Command } from "../Core/ICommand";
+
+export default class AdminMiddleware implements IMiddleware {
+  constructor(public readonly forCommands: Array<string>) {}
+
+  public middle(command: Command): boolean {
+    const username: string = command.message.author.username;
+
+    if (username === "another dan") {
+      return true;
+    }
+
+    command.message.react("🚫");
+    return false;
   }
 }
 ```
