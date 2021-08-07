@@ -1,5 +1,6 @@
 import { Client, Message } from "discord.js";
 
+import IMiddleware from "./IMiddleware";
 import ICommand, { Command } from "./ICommand";
 import IEvent from "./IEvent";
 
@@ -11,6 +12,7 @@ enum ClientEvent {
 }
 
 type Injectables = {
+  middlewares?: Array<IMiddleware>;
   commands?: Array<ICommand>;
   events?: Array<IEvent<unknown, unknown, unknown>>;
 };
@@ -54,7 +56,20 @@ export default class Core {
               (c: ICommand): boolean => c.name.toLowerCase() === command.name,
             );
 
-          if (commandImpl) await commandImpl.execute(command);
+          if (commandImpl) {
+            const hasMiddleware: IMiddleware | undefined =
+              this.injectables.middlewares!.find((m) =>
+                m.forCommands.includes(commandImpl.name),
+              );
+
+            if (hasMiddleware) {
+              if (await hasMiddleware.middle(command)) {
+                await commandImpl.execute(command);
+              }
+            } else {
+              await commandImpl.execute(command);
+            }
+          }
         }
       },
     );
